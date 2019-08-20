@@ -1,6 +1,8 @@
 defmodule Gs do
   use GenServer
 
+  @name __MODULE__ 
+
   @moduledoc """
   Documentation for Gs.
   """
@@ -22,26 +24,26 @@ defmodule Gs do
 
   def start_link(opts \\ []) do
     IO.puts "starting..."
-    IO.puts __MODULE__
-    GenServer.start_link(__MODULE__, :ok, opts)
+    IO.puts @name
+    GenServer.start_link(@name, :ok, [name: @name] ++ opts)
   end
 
   def stop(pid) do
     IO.puts "stopping..."
-    IO.puts __MODULE__
-    GenServer.cast(pid, :stop)
+    IO.puts @name
+    GenServer.cast(@name, :stop)
   end
 
-  def hello_async(pid) do
-    GenServer.cast(pid, :hello) 
+  def hello_async() do
+    GenServer.cast(@name, :hello) 
   end
 
-  def wazap_async(pid) do
-    GenServer.cast(pid, :wazap)
+  def wazap_async() do
+    GenServer.cast(@name, :wazap)
   end
 
-  def hello_sync(pid) do
-    GenServer.call(pid, :hello, 5000) 
+  def hello_sync() do
+    GenServer.call(@name, :hello, 5000) 
   end
 
   ## Callbacks
