@@ -52,10 +52,10 @@ defmodule Gs do
 
   def terminate(reason, state) do
     # We could write to a file, database etc
-    IO.puts "server terminated because of #{inspect reason}"
-      inspect stats
+    IO.puts "server terminated because of #{inspect reason} #{inspect state}"
     :ok
   end
+
 
   # async
 
@@ -69,8 +69,8 @@ defmodule Gs do
     {:noreply, state}
   end
 
-  def handle_cast(:stop, status) do
-    {:stop,:normal,status}
+  def handle_cast(:stop, state) do
+    {:stop,:normal,state}
   end
 
 
@@ -79,6 +79,21 @@ defmodule Gs do
   def handle_call(:hello = msg, _from, state) do
     {:reply, "HELLO THERE!", state}
   end
+
+
+  # info
+
+  # to send an info messgage try
+  #
+  # {:ok,pid} = Gs.start_link
+  # send pid, "It's raining men"
+  #
+
+  def handle_info(msg, state) do
+    IO.puts "received #{inspect msg}"
+    {:noreply, state}
+  end
+
 
   ## Internals
   
